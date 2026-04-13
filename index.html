@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>MTN MoMo Loan · Smart Loan Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 520px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .calculator-card {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 48px;
+            border: 1px solid rgba(255, 204, 0, 0.15);
+            padding: 28px 24px 32px;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #FFCC00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 28px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(255, 204, 0, 0.3);
+        }
+
+        .slider-group {
+            margin-bottom: 32px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 14px;
+        }
+
+        .slider-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .slider-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #FFCC00;
+            background: rgba(255, 204, 0, 0.1);
+            padding: 6px 14px;
+            border-radius: 40px;
+        }
+
+        .custom-slider {
+            width: 100%;
+            height: 5px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #1e2a3a;
+            border-radius: 20px;
+            outline: none;
+            margin: 16px 0 6px;
+        }
+
+        .custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #FFCC00;
+            cursor: pointer;
+            box-shadow: 0 0 0 2px #0f172a, 0 0 0 4px rgba(255, 204, 0, 0.4);
+        }
+
+        .custom-slider:active::-webkit-slider-thumb {
+            transform: scale(1.2);
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.65rem;
+            color: #5c6f87;
+        }
+
+        .interest-static {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 204, 0, 0.15);
+        }
+
+        .interest-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .interest-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #FFCC00;
+            background: rgba(255, 204, 0, 0.1);
+            padding: 6px 18px;
+            border-radius: 40px;
+        }
+
+        .result-section {
+            text-align: center;
+            margin: 24px 0 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 204, 0, 0.05), rgba(255, 204, 0, 0.02));
+            border-radius: 32px;
+        }
+
+        .result-amount {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(145deg, #ffffff, #FFCC00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .result-label-text {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #7e8aa2;
+            margin-top: 8px;
+        }
+
+        .apply-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FFCC00, #F5A623);
+            border: none;
+            padding: 18px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0b1120;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px -8px rgba(255, 204, 0, 0.5);
+        }
+
+        .apply-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* MTN Ghana Trust Badge */
+        .mtn-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(255, 204, 0, 0.05);
+            border-radius: 40px;
+            flex-wrap: wrap;
+        }
+        .mtn-badge span {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+        .mtn-badge strong {
+            color: #FFCC00;
+        }
+
+        @media (max-width: 480px) {
+            .calculator-card {
+                padding: 22px 18px 28px;
+            }
+            .result-amount {
+                font-size: 2.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="calculator-card">
+        <div class="card-title">📱 MTN MoMo Loan</div>
+
+        <div class="slider-group">
+            <div class="slider-header">
+                <span class="slider-label">I want to borrow</span>
+                <span class="slider-value" id="borrowValueLabel">₵500</span>
+            </div>
+            <input type="range" id="amountSlider" class="custom-slider" min="100" max="5000" value="500" step="1">
+            <div class="range-labels">
+                <span>₵100</span>
+                <span>₵2,500</span>
+                <span>₵5,000</span>
+            </div>
+        </div>
+
+        <div class="slider-group">
+            <div class="slider-header">
+                <span class="slider-label">Duration</span>
+                <span class="slider-value" id="durationLabel">3 Months</span>
+            </div>
+            <input type="range" id="durationSlider" class="custom-slider" min="1" max="24" value="3" step="1">
+            <div class="range-labels">
+                <span>1 mo</span>
+                <span>12 mos</span>
+                <span>24 mos</span>
+            </div>
+        </div>
+
+        <div class="interest-static">
+            <span class="interest-label">Interest Rate</span>
+            <span class="interest-value">5% APR</span>
+        </div>
+    </div>
+
+    <div class="result-section">
+        <div class="result-amount" id="monthlyRepayment">₵167.36</div>
+        <div class="result-label-text">Estimated Monthly Repayment</div>
+    </div>
+
+    <button class="apply-btn" id="applyNowBtn">Apply Now →</button>
+
+    <!-- MTN Ghana Trust Badge -->
+    <div class="mtn-badge">
+        <span>🇬🇭</span>
+        <span><strong>17M+</strong> registered users</span>
+        <span>🏦</span>
+        <span>Licensed Mobile Money Lender</span>
+        <span>⚡</span>
+        <span>Instant approval</span>
+    </div>
+</div>
+
+<script>
+    const amountSlider = document.getElementById('amountSlider');
+    const durationSlider = document.getElementById('durationSlider');
+    const borrowLabel = document.getElementById('borrowValueLabel');
+    const durationLabel = document.getElementById('durationLabel');
+    const monthlyRepaymentSpan = document.getElementById('monthlyRepayment');
+    const applyBtn = document.getElementById('applyNowBtn');
+    const RATE = 5;
+    let currentMonthly = 0;
+
+    function calcMonthly(principal, months, annualRate) {
+        if (principal <= 0 || months <= 0) return 0;
+        const r = (annualRate / 100) / 12;
+        if (r === 0) return principal / months;
+        const factor = Math.pow(1 + r, months);
+        return principal * r * factor / (factor - 1);
+    }
+
+    function updateAll() {
+        let amount = parseFloat(amountSlider.value);
+        let months = parseInt(durationSlider.value);
+        if (isNaN(amount)) amount = 500;
+        if (isNaN(months)) months = 3;
+        
+        borrowLabel.innerText = '₵' + amount.toLocaleString('en-US');
+        durationLabel.innerText = months + ' Month' + (months !== 1 ? 's' : '');
+        currentMonthly = calcMonthly(amount, months, RATE);
+        monthlyRepaymentSpan.innerText = '₵' + currentMonthly.toFixed(2);
+    }
+
+    amountSlider.addEventListener('input', updateAll);
+    durationSlider.addEventListener('input', updateAll);
+    updateAll();
+
+    applyBtn.addEventListener('click', () => {
+        const amount = parseFloat(amountSlider.value);
+        const months = parseInt(durationSlider.value);
+        const url = 'apply.html'
+            + '?amount=' + amount.toFixed(2)
+            + '&term=' + months
+            + '&rate=' + RATE
+            + '&monthly=' + currentMonthly.toFixed(2)
+            + '&totalPayment=' + (currentMonthly * months).toFixed(2);
+        window.location.href = url;
+    });
+</script>
+</body>
+</html>

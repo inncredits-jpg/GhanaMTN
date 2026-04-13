@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PrimeLend · Application Complete</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
+            font-family: 'Inter', system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .success-card {
+            max-width: 420px;
+            width: 100%;
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 48px;
+            padding: 48px 28px 40px;
+            text-align: center;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .check-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+            font-size: 48px;
+            color: #0b1120;
+            animation: pulse 0.8s ease-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #14b8a6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #94a3b8;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .loan-details {
+            background: rgba(15, 23, 36, 0.6);
+            border-radius: 24px;
+            padding: 16px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: #e2e8f0;
+        }
+
+        .home-btn {
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            border: none;
+            padding: 14px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            color: #0b1120;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+<div class="success-card">
+    <div class="check-icon">✓</div>
+    <h1>Application Submitted!</h1>
+    <p>Your loan application has been received successfully.</p>
+    <div class="loan-details">
+        <div class="detail-row"><span>Loan Amount:</span><strong id="displayAmount">$0</strong></div>
+        <div class="detail-row"><span>Status:</span><strong style="color:#14b8a6">Pending Review</strong></div>
+    </div>
+    <p style="font-size:0.8rem">You will receive a confirmation shortly.</p>
+    <button class="home-btn" onclick="window.location.href='index.html'">Back to Home</button>
+</div>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById('displayAmount').innerText = `$${parseInt(params.get('amount') || 0).toLocaleString()}`;
+</script>
+</body>
+</html>

